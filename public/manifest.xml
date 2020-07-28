@@ -4,10 +4,10 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xsi:type="MailApp">
   <Id>843ce738-93fd-4fc7-8c10-6d7b616AB791</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Contoso</ProviderName>
+  <ProviderName>Microsoft Office 365 Ecosystem</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Empty Add-in"/>
-  <Description DefaultValue="Empty Add-in"/>
+  <DisplayName DefaultValue="Actionable Messages Debugger"/>
+  <Description DefaultValue="Debug actionable messages"/>
   <IconUrl DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-80.png"/>
   <HighResolutionIconUrl DefaultValue="https://amdebugger.azurewebsites.net/assets/logo-filled.png"/>
   <SupportUrl DefaultValue="https://contoso.com/help"/>
@@ -23,7 +23,7 @@
     <Form xsi:type="ItemRead">
       <DesktopSettings>
         <SourceLocation DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"></SourceLocation>
-        <RequestedHeight>32</RequestedHeight>
+        <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
   </FormSettings>
@@ -75,10 +75,10 @@
         <bt:Url id="residTaskPane" DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="residLabel" DefaultValue="Empty Add-in"/>
+        <bt:String id="residLabel" DefaultValue="Actionable Messages Debugger"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="residTooltip" DefaultValue="Empty Add-in"/>
+        <bt:String id="residTooltip" DefaultValue="Actionable Messages Debugger"/>
       </bt:LongStrings>
     </Resources>
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
@@ -153,10 +153,10 @@
           <bt:Url id="residTaskPane" DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="residLabel" DefaultValue="Empty Add-in"/>
+          <bt:String id="residLabel" DefaultValue="Actionable Messages Debugger"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="residTooltip" DefaultValue="Empty Add-in"/>
+          <bt:String id="residTooltip" DefaultValue="Actionable Messages Debugger"/>
         </bt:LongStrings>
       </Resources>
     </VersionOverrides>

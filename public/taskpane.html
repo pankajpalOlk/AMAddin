@@ -1,18 +1,395 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Empty add-in</title>
-    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-    <script type="text/javascript" src="taskpane.js"></script>
-    <link type="text/css" href="taskpane.css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.js" type="text/javascript"></script>
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+
+    <script src="agaveApp.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+            document.getElementById("errorMessage").innerHTML = errorMsg + "<br>" + url + "<br>" + lineNumber;
+            document.getElementById("errorMessage").style.display = "block";
+            return false;
+        }
+    </script>
+
+    <title>Actionable Message Debugger</title>
+
+    <style type="text/css">
+        body {
+            font-family: "Segoe UI",SegoeUI,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 15px;
+            background-color: #F5F8FA;
+        }
+
+        #notification-message {
+            background-color: #818285;
+            color: #fff;
+            position: fixed;
+            padding: 5px;
+            min-height: 80px;
+            z-index: 100;
+            bottom: 0;
+            display: none; /* Hidden until invoked */
+            border: 1px solid lightGrey;
+            box-shadow: 1px 1px lightGrey;
+        }
+
+        #notification-message #notification-message-header {
+            font-size: medium;
+            margin-bottom: 10px;
+        }
+
+        #notification-message #notification-message-close {
+            background-image: url("Content/Images/Close.png");
+            background-repeat: no-repeat;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            cursor: pointer;
+        }
+
+        .messageBlock {
+            background-color: #FFFFFF;
+            margin: 10px 0;
+            border: 1px solid lightGrey;
+            box-shadow: 1px 1px lightGrey;
+            display: none;
+        }
+
+        .messageTitleBar {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: stretch;
+        }
+
+        .toggleTitleBar{
+            cursor: pointer;
+        }
+
+        .messageTitleBar .chevron {
+            flex: 0 0 25px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 50%;
+            text-align: right;
+        }
+
+        .titleClosed {
+            background-image: url("Content/Images/ChevronDown.png");
+        }
+
+        .titleOpen {
+            background-image: url("Content/Images/ChevronUp.png");
+        }
+
+        .messageTitle {
+            flex-grow: 2;
+            padding: 10px 0 10px 10px;
+        }
+
+        .messageError {
+            flex-grow: 1;
+            padding: 10px 10px 10px 0;
+            text-align: right;
+            color: red;
+        }
+
+        .messageButton {
+            flex-grow: 1;
+            text-align: right;
+        }
+
+        .messageDetailClosed {
+            display: none;
+            padding: 5px 10px;
+        }
+
+        .messageDetailOpen {
+            padding: 0 10px;
+        }
+
+        .jsonView {
+            overflow-x: auto;
+        }
+
+        .ms-Button {
+            box-sizing: border-box;
+            margin: 5px;
+            box-shadow: none;
+            font-family: Segoe UI WestEuropean,Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+            -webkit-font-smoothing: antialiased;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: #f4f4f4;
+            border: 1px solid #f4f4f4;
+            cursor: pointer;
+            display: inline-block;
+            height: 32px;
+            min-width: 80px;
+            padding: 4px 15px 6px;
+        }
+
+        .ms-Button.ms-Button--primary {
+            background-color: #0078d7;
+            border-color: #0078d7;
+            color: #FFF;
+        }
+
+        .ms-Button.ms-Button--primary:focus {
+            background-color: #005a9e;
+            border-color: #004578;
+        }
+        .ms-Button.ms-Button--primary:hover {
+            background-color: #005a9e;
+            border-color: #005a9e;
+        }
+
+        .ms-Button.ms-Button--primary:active {
+            background-color: #0078d7;
+            border-color: #0078d7
+        }
+
+        .ms-Button:focus {
+            background-color: #eaeaea;
+            border-color: #0078d7;
+            outline: 1px solid transparent;
+        }
+        .ms-Button:hover {
+            background-color: #eaeaea;
+            border-color: #eaeaea;
+        }
+
+        .ms-Button:active {
+            background-color: #0078d7;
+            border-color: #0078d7;
+            color: #fff
+        }
+
+        .actioncopy:before {
+            content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath fill='%23707070' d='M13 6.8V14H4v-3H0V0h5.2l3 3h1L13 6.8zM4 3h2.8l-2-2H1v9h3V3zm8 5H8V4H5v9h7V8zM9 7h2.8L9 4.2V7z'/%3E%3C/svg%3E");
+            display: inline-block;
+            margin-right: 3px;
+            height: .8rem;
+            width: .8rem
+        }
+
+    </style>
 </head>
-
 <body>
-    This is a empty task pane add-in
-</body>
+    <div id="errorMessage"></div>
+    <div id="clientErrorblocksContainer">
+        <div class="messageBlock" id="clientNotSupportedMessage">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Actionable Messages</div>
+                <div class="messageError">Not Supported</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Your Outlook client does not support actionable messages yet. Check <a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/#outlook-version-requirements-for-actionable-messages" target="_blank">Outlook version requirements for actionable messages</a>.</div>
+        </div>
 
+        <div class="messageBlock" id="adaptiveCardNotSupportedMessage">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Adaptive Card</div>
+                <div class="messageError">Not Supported</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Your Outlook client does not support Adaptive Card yet. Check <a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/#outlook-version-requirements-for-actionable-messages" target="_blank">Outlook version requirements for actionable messages</a>.</div>
+        </div>
+
+        <div class="messageBlock" id="outlook2013Message">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Actionable Messages</div>
+                <div class="messageError">Not Supported</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Actionable Messages are not available in Outlook 2013. Check <a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/#outlook-version-requirements-for-actionable-messages" target="_blank">Outlook version requirements for actionable messages</a>.</div>
+        </div>
+
+        <div class="messageBlock" id="outlookVersionMessage">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Outlook Version</div>
+                <div class="messageError">Not Supported</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Your Outlook version is outdated. Please update to the latest one to get actionable messages support.</div>
+        </div>
+    </div>
+    <div id="blocksContainer">
+        <div class="messageBlock" id="restError">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Load message info</div>
+                <div class="messageError">Error</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Error loading message data. Try close the add in and open it again.</div>
+        </div>
+
+        <div class="messageBlock" id="cardNotFound">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Card Enabled</div>
+                <div class="messageError">False</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">No card is enabled on this message.</div>
+        </div>
+
+        <div class="messageBlock" id="originatorNotSetMessage">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Originator</div>
+                <div class="messageError">Not Set</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">You need to set the originator in your payload to make actionable message work beyond your own mailbox. Please go to <a href="https://outlook.office.com/connectors/oam/publish" target="_blank">developer portal</a> to register your provider and set the originator property in your payload.</div>
+        </div>
+
+        <div class="messageBlock" id="spfDkimFailMessage">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">SPF/DKIM check</div>
+                <div class="messageError">Fail</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">SPF/DKIM check failed. Please <a href="https://blogs.technet.microsoft.com/fasttracktips/2016/07/16/spf-dkim-dmarc-and-exchange-online/" target="_blank">enable SPF, DKIM</a> to make actionable messages work.</div>
+        </div>
+
+        <div class="messageBlock" id="entityExtractionNotRun">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Actionable Messages processing</div>
+                <div class="messageError">None</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Actionable messages processing has not been performed on this message. Actionable messages are only enabled for Office 365.</div>
+        </div>
+
+        <div class="messageBlock" id="messageCardPayloadError">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Message Card payload parsing</div>
+                <div class="messageError">Error</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Message card payload found but could not be parsed. Please validate the payload. For adaptive card, put the payload in &lt;script type="application/adaptivecard+json"&gt;</div>
+        </div>
+
+        <div class="messageBlock" id="adaptiveCardPayloadError">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Adaptive Card payload parsing</div>
+                <div class="messageError">Error</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed">Adaptive card payload found but could not be parsed. Please validate the payload.</div>
+        </div>
+
+        <div class="messageBlock" id="stampingError">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Processing</div>
+                <div class="messageError">Error</div>
+                <div class="chevron titleOpen"></div>
+            </div>
+            <div class="messageDetailOpen"></div>
+        </div>
+
+        <div class="messageBlock" id="actionHistory">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Action Trace</div>
+                <div class="messageButton">
+                    <button class="ms-Button actioncopy">
+                        <span>Copy</span>
+                    </button>
+                </div>
+                <div class="chevron titleOpen"></div>
+            </div>
+            <div class="messageDetailOpen jsonView">
+                <div id="historyRecordTemplate" style="display:none;">
+                    <div style="margin-bottom: 10px">
+                        Time: <span class="performedAt"></span>
+                    </div>
+                    <div class="errorMessage" style="color: red;"></div>
+                    <div>
+                        <div class="requestMethodUrlBlock">
+                            <span class="requestMethod"></span>
+                            <span class="requestUrl"></span>
+                        </div>
+                        <pre class="requestHeaders"></pre>
+                        <pre class="requestBody"></pre>
+                    </div>
+                    <div>
+                        <div class="responseStatusBlock">
+                            <span>Response status:</span>
+                            <span class="responseStatus"></span>
+                        </div>
+                        <pre class="responseHeaders"></pre>
+                        <pre class="responseBody"></pre>
+                    </div>
+                </div>
+                Latest Action:
+                <div id="historyContainer"></div>
+            </div>
+        </div>
+
+        <div class="messageBlock" id="htmlBodyBlock">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Mail body HTML</div>
+                <div class="messageButton">
+                    <button class="ms-Button actioncopy">
+                        <span>Copy</span>
+                    </button>
+                </div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed jsonView"><pre></pre></div>
+        </div>
+
+        <div class="messageBlock" id="adaptiveCardBlock">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Adaptive Card</div>
+                <div class="messageButton">
+                    <button class="ms-Button actioncopy">
+                        <span>Copy</span>
+                    </button>
+                </div>
+                <div class="chevron titleOpen"></div>
+            </div>
+            <div class="messageDetailOpen jsonView"><pre></pre></div>
+        </div>
+
+        <div class="messageBlock" id="messageCardBlock">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Message Card</div>
+                <div class="messageButton">
+                    <button class="ms-Button actioncopy">
+                        <span>Copy</span>
+                    </button>
+                </div>
+                <div class="chevron titleOpen"></div>
+            </div>
+            <div class="messageDetailOpen jsonView"><pre></pre></div>
+        </div>
+
+        <div class="messageBlock" id="diagnosticsBlock">
+            <div class="messageTitleBar toggleTitleBar">
+                <div class="messageTitle">Diagnostics</div>
+                <div class="chevron titleClosed"></div>
+            </div>
+            <div class="messageDetailClosed jsonView"><pre></pre></div>
+        </div>
+    </div>
+
+    <div id="main" style="display:none;">
+        <input id="sendMail" type="button" class="ms-Button ms-Button--primary" value="Ask for help" />
+        <a id="sendMailLink" href="#">Ask for help</a>
+    </div>
+    <script src="restApiClient.js" type="text/javascript"></script>
+    <script src="agavePane.js" type="text/javascript"></script>
+</body>
 </html>

@@ -9,7 +9,6 @@ const port = process.env.PORT || '3002';
 app.set('port', port);
 
 app.get('/', function(req, res){
-	console.log('m here');
 	res.sendFile(path.join(__dirname+'/public/taskpane.html'));
 })
 
