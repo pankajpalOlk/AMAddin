@@ -40,26 +40,26 @@
 
         // Initialization code goes here
 
-        AWT.initialize("5e3990d926a54076a97ec4299826ea03-68e14c6b-4173-44a3-9b9e-5efcbfcf5419-6804");
-        AWT.setContext("UserAgent", navigator.userAgent);
+        //AWT.initialize("5e3990d926a54076a97ec4299826ea03-68e14c6b-4173-44a3-9b9e-5efcbfcf5419-6804");
+        //AWT.setContext("UserAgent", navigator.userAgent);
 
         window.addEventListener('error', function (event) {
-            AWT.logEvent({
-                name: "Error",
-                properties: {
-                    "HostName": Office.context.mailbox.diagnostics.hostName,
-                    "HostVersion": Office.context.mailbox.diagnostics.hostVersion,
-                    "Message": event.message,
-                    "File": event.filename,
-                    "Line": event.lineno,
-                    "Column": event.colno
-                }
-            });
+            // AWT.logEvent({
+            //     name: "Error",
+            //     properties: {
+            //         "HostName": Office.context.mailbox.diagnostics.hostName,
+            //         "HostVersion": Office.context.mailbox.diagnostics.hostVersion,
+            //         "Message": event.message,
+            //         "File": event.filename,
+            //         "Line": event.lineno,
+            //         "Column": event.colno
+            //     }
+            // });
         });
 
         window.addEventListener("beforeunload", function (event) {
             try {
-                AWT.flushAndTeardown();
+                //AWT.flushAndTeardown();
             } catch (e) {
                 // ingore any error
             }
@@ -619,17 +619,17 @@
                         }
                     });
 
-                    AWT.logEvent({
-                        name: "DiagnosticsShown",
-                        properties: {
-                            "HostName": hostName,
-                            "HostVersion": hostVersion,
-                            "AdaptiveCard": adaptiveCard !== null,
-                            "MessageCard": messageCard !== null,
-                            "EntityDocument": entityDocument !== null,
-                            "AddinHost": document.location.host
-                        }
-                    });
+                    // AWT.logEvent({
+                    //     name: "DiagnosticsShown",
+                    //     properties: {
+                    //         "HostName": hostName,
+                    //         "HostVersion": hostVersion,
+                    //         "AdaptiveCard": adaptiveCard !== null,
+                    //         "MessageCard": messageCard !== null,
+                    //         "EntityDocument": entityDocument !== null,
+                    //         "AddinHost": document.location.host
+                    //     }
+                    // });
                 });
             }
         });
