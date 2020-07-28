@@ -1,0 +1,15 @@
+{
+  "name": "emptyaddin",
+  "version": "1.0.0",
+  "description": "just empty add-in",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "SureshGowtham S",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security"
+  }
+}
