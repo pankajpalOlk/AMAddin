@@ -8,8 +8,8 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Empty Add-in"/>
   <Description DefaultValue="Empty Add-in"/>
-  <IconUrl DefaultValue="https://<add_in_url>/assets/icon-80.png"/>
-  <HighResolutionIconUrl DefaultValue="https://<add_in_url>/assets/logo-filled.png"/>
+  <IconUrl DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-80.png"/>
+  <HighResolutionIconUrl DefaultValue="https://amdebugger.azurewebsites.net/assets/logo-filled.png"/>
   <SupportUrl DefaultValue="https://contoso.com/help"/>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -22,7 +22,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://<add_in_url>/taskpane.html"></SourceLocation>
+        <SourceLocation DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"></SourceLocation>
         <RequestedHeight>32</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -67,12 +67,12 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="icon-16" DefaultValue="https://<add_in_url>/assets/icon-16.png"/>
-        <bt:Image id="icon-32" DefaultValue="https://<add_in_url>/assets/icon-32.png"/>
-        <bt:Image id="icon-80" DefaultValue="https://<add_in_url>/assets/icon-80.png"/>
+        <bt:Image id="icon-16" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-16.png"/>
+        <bt:Image id="icon-32" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-32.png"/>
+        <bt:Image id="icon-80" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="residTaskPane" DefaultValue="https://<add_in_url>/taskpane.html"/>
+        <bt:Url id="residTaskPane" DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="residLabel" DefaultValue="Empty Add-in"/>
@@ -145,12 +145,12 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="icon-16" DefaultValue="https://<add_in_url>/assets/icon-16.png"/>
-          <bt:Image id="icon-32" DefaultValue="https://<add_in_url>/assets/icon-32.png"/>
-          <bt:Image id="icon-80" DefaultValue="https://<add_in_url>/assets/icon-80.png"/>
+          <bt:Image id="icon-16" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-16.png"/>
+          <bt:Image id="icon-32" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-32.png"/>
+          <bt:Image id="icon-80" DefaultValue="https://amdebugger.azurewebsites.net/assets/icon-80.png"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="residTaskPane" DefaultValue="https://<add_in_url>/taskpane.html"/>
+          <bt:Url id="residTaskPane" DefaultValue="https://amdebugger.azurewebsites.net/taskpane.html"/>
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="residLabel" DefaultValue="Empty Add-in"/>
