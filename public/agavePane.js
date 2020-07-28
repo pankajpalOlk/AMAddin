@@ -581,43 +581,43 @@
 
                     var useSendMailLink = mainVersion < 16 || hostName === OUTLOOKIOS || hostName === OUTLOOKANDROID || hostName === OUTLOOKWEB || !Office.context.mailbox.displayNewMessageForm;
 
-                    if (useSendMailLink) {
-                        $('#sendMailLink').show();
-                        $('#sendMail').hide();
-                    } else {
-                        $('#sendMailLink').hide();
-                        $('#sendMail').show();
-                    }
-                    var mailLinkParams = {
-                        subject: 'Actionable Message Issue Report for message ' + Office.context.mailbox.item.internetMessageId,
-                        body: buildTextBody(messageCard, adaptiveCard, combinedDiagnostics, entityExtractionDiagnostics)
-                    };
+                    // if (useSendMailLink) {
+                    //     $('#sendMailLink').show();
+                    //     $('#sendMail').hide();
+                    // } else {
+                    //     $('#sendMailLink').hide();
+                    //     $('#sendMail').show();
+                    // }
+                    // var mailLinkParams = {
+                    //     subject: 'Actionable Message Issue Report for message ' + Office.context.mailbox.item.internetMessageId,
+                    //     body: buildTextBody(messageCard, adaptiveCard, combinedDiagnostics, entityExtractionDiagnostics)
+                    // };
 
-                    var paramsEncoded = $.param(mailLinkParams).replace(/\+/g, "%20");
+                    // var paramsEncoded = $.param(mailLinkParams).replace(/\+/g, "%20");
 
-                    $('#sendMailLink').attr('href', 'mailto:onboardoam@microsoft.com?' + paramsEncoded);
+                    // $('#sendMailLink').attr('href', 'mailto:onboardoam@microsoft.com?' + paramsEncoded);
 
-                    // Send mail link handling for android, with will show "unable to open" page for mailto link in iframe
-                    if (hostName === OUTLOOKANDROID) {
-                        $('#sendMailLink').attr('target', '_blank');
-                    }
+                    // // Send mail link handling for android, with will show "unable to open" page for mailto link in iframe
+                    // if (hostName === OUTLOOKANDROID) {
+                    //     $('#sendMailLink').attr('target', '_blank');
+                    // }
 
-                    $('#sendMail').off().click(function () {
-                        if (Office.context.mailbox.displayNewMessageForm !== undefined) {
-                            try {
-                                Office.context.mailbox.displayNewMessageForm(
-                                    {
-                                        toRecipients: ['onboardoam@microsoft.com'],
-                                        subject: 'Actionable Message Issue Report for message ' + Office.context.mailbox.item.internetMessageId,
-                                        htmlBody: buildBody(messageCard, adaptiveCard, combinedDiagnostics, entityExtractionDiagnostics)
-                                    });
-                            } catch (e) {
-                                app.showNotification("Send mail failed", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
-                            }
-                        } else {
-                            app.showNotification("Send mail not supported", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
-                        }
-                    });
+                    // $('#sendMail').off().click(function () {
+                    //     if (Office.context.mailbox.displayNewMessageForm !== undefined) {
+                    //         try {
+                    //             Office.context.mailbox.displayNewMessageForm(
+                    //                 {
+                    //                     toRecipients: ['onboardoam@microsoft.com'],
+                    //                     subject: 'Actionable Message Issue Report for message ' + Office.context.mailbox.item.internetMessageId,
+                    //                     htmlBody: buildBody(messageCard, adaptiveCard, combinedDiagnostics, entityExtractionDiagnostics)
+                    //                 });
+                    //         } catch (e) {
+                    //             app.showNotification("Send mail failed", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
+                    //         }
+                    //     } else {
+                    //         app.showNotification("Send mail not supported", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
+                    //     }
+                    // });
 
                     // AWT.logEvent({
                     //     name: "DiagnosticsShown",

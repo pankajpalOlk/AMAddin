@@ -385,11 +385,25 @@
         </div>
     </div>
 
-    <div id="main" style="display:none;">
+    <div id="main" style="display:block;">
         <input id="sendMail" type="button" class="ms-Button ms-Button--primary" value="Ask for help" />
         <a id="sendMailLink" href="#">Ask for help</a>
     </div>
+
+    <div id="amWrapperDiv" style="display: none;">
+        <div id="actionable-message" style="display: none;"></div>
+    </div>
+
+    <div id="amSnackBarWrapper" class="amsnackbarwrapper">
+        <div id="amSnackBar" class="amsnackBar"></div>
+    </div>
+
+
+
     <script src="restApiClient.js" type="text/javascript"></script>
     <script src="agavePane.js" type="text/javascript"></script>
+    <script src="cardRenderHelper_windows.js" type="text/javascript"></script>
+    <script src="card.js" type="text/javascript"></script>
+    <script src="cardHelper.js" type="text/javascript"></script>
 </body>
 </html>
