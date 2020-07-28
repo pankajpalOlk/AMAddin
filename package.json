@@ -1,12 +1,12 @@
 {
-  "name": "emptyaddin",
+  "name": "amdebugger",
   "version": "1.0.0",
   "description": "just empty add-in",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "SureshGowtham S",
+  "author": "AM Team",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",

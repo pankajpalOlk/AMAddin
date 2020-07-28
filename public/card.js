@@ -53,7 +53,7 @@ var initialHelpCard = {
     ],
     "autoInvokeAction": null,
     "autoInvokeOptions": null,
-    "constrainWidth": false,
+    "constrainWidth": true,
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "@type": "AdaptiveCard",
     "@context": "http://schema.org/extensions"
