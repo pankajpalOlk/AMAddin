@@ -1,5 +1,5 @@
 {
-  "name": "Actionable Messages Debugger",
+  "name": "amdebugger",
   "version": "1.0.0",
   "description": "just empty add-in",
   "main": "app.js",
