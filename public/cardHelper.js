@@ -2,7 +2,25 @@
 $('#sendMail').off().click(function(){
     if (initialHelpCard) {
         window.nativeactionHandler = function() {
-            console.log('native action handler called');
+            
+            if (nativeAction_htmlBody) {
+                app.showNotification("Send mail not supported", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
+                try {
+                    Office.context.mailbox.displayNewMessageForm(
+                        {
+                            toRecipients: ['onboardoam@microsoft.com'],
+                            subject: 'Actionable Message Issue Report for message ' + Office.context.mailbox.item.internetMessageId,
+                            htmlBody: nativeAction_htmlBody
+                        });
+                } catch (e) {
+                    app.showNotification("Send mail failed", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
+                    //window.amCardRenderer.clientManagerInstance.displaySnackMessage("Send mail failed : Please copy the diagnostics content and send it to onboardoam@microsoft.com.", false);
+                }
+            } else {
+                app.showNotification("Send mail not supported", "Please copy the diagnostics content and send it to onboardoam@microsoft.com.");
+                //window.amCardRenderer.clientManagerInstance.displaySnackMessage("Send mail failed: Please copy the diagnostics content and send it to onboardoam@microsoft.com.", false);
+            }
+            
             window.amCardRenderer.updateActionStatus();
         }
         window.amCardRenderer = new CardRenderHelper.CardRender("#actionable-message");

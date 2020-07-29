@@ -1,4 +1,5 @@
 
+var nativeAction_htmlBody = null;
 
 (function () {
 
@@ -630,6 +631,10 @@
                     //         "AddinHost": document.location.host
                     //     }
                     // });
+
+                    if (!useSendMailLink && Office.context.mailbox.displayNewMessageForm !== undefined) {
+                        nativeAction_htmlBody = buildBody(messageCard, adaptiveCard, combinedDiagnostics, entityExtractionDiagnostics);
+                    }
                 });
             }
         });
