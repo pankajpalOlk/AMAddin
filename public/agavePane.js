@@ -183,7 +183,7 @@ var nativeAction_htmlBody = null;
             });
 
             $block.find('pre').text(cardFormatted);
-            $block.show();
+            //$block.show();
         }
     }
 
