@@ -45,7 +45,12 @@ var initialHelpCard = {
                     "isPrimary": false,
                     "type": "Action.Http",
                     "id": "6487a969-45cf-071f-f2a4-6052e46c16e8"
-                }
+                },
+                {
+					"type": "Action.DisplayMessageForm",
+					"itemId": "abcdef",
+					"title": "Email us"
+				}
             ],
             "id": "1097f031-1e62-fa96-9010-0ef9553f2068",
             "type": "ActionSet"
