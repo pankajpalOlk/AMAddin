@@ -184,6 +184,7 @@ var nativeAction_htmlBody = null;
 
             $block.find('pre').text(cardFormatted);
             $block.find('.messageDetailOpen').hide();
+            $block.find('.chevron').toggleClass("titleClosed titleOpen");
             $block.show();
         }
     }
